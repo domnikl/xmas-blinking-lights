@@ -2,6 +2,8 @@
 
 Kotlin everywhere - now also in my christmas village providing light for the little elf inhabitants.
 
+![in action](in-action.gif)
+
 ## Circuit
 
 This schema shows the circuit I've used. I'm not sure about the resistors, though!
