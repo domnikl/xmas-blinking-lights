@@ -3,6 +3,7 @@ package io.domnikl.xmas
 import pigpio.PI_OUTPUT
 import pigpio.gpioSetMode
 import pigpio.gpioWrite
+import platform.posix.rand
 import platform.posix.sleep
 import platform.posix.usleep
 
@@ -13,37 +14,31 @@ class GpioLedArray @ExperimentalUnsignedTypes constructor(private val gpioPins: 
         }
     }
 
-    fun random() = gpioPins.shuffled().first()
-
     @ExperimentalUnsignedTypes
     fun switchAll(state: State) {
         gpioPins.forEach { gpioWrite(it, state.toUInt()) }
     }
 
     @ExperimentalUnsignedTypes
-    fun shutOffAndOnAgainSlowly(duration: Int) {
-        gpioPins.shuffled().forEach {
+    fun switchOffAndOnAgain() {
+        val count = (rand() % gpioPins.size) + 1
+        val sleepSeconds = (rand() % 2) + 1
+        val toSwitchOff = gpioPins.shuffled().take(count)
+
+        toSwitchOff.forEach {
             gpioWrite(it, State.OFF.toUInt())
-            usleep(duration.toUInt() * 1000.toUInt())
+
+            val sleeping = (rand() % 1000) + 80
+            usleep(sleeping.toUInt() * 1000.toUInt())
         }
 
-        sleep(3)
+        sleep(sleepSeconds.toUInt())
 
-        gpioPins.shuffled().forEach {
-            usleep(duration.toUInt() * 1000.toUInt())
+        toSwitchOff.shuffled().forEach {
+            val sleeping = (rand() % 1000) + 80
+            usleep(sleeping.toUInt() * 1000.toUInt())
+
             gpioWrite(it, State.ON.toUInt())
         }
-    }
-
-    @ExperimentalUnsignedTypes
-    fun blinkThroughAll(duration: Int) {
-        gpioPins.shuffled().forEach { blink(it, duration) }
-    }
-
-    @ExperimentalUnsignedTypes
-    fun blink(led: Led, duration: Int) {
-        gpioWrite(led, State.OFF.toUInt())
-        usleep(duration.toUInt() * 1000.toUInt())
-        gpioWrite(led, State.ON.toUInt())
     }
 }

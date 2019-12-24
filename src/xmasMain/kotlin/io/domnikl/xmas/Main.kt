@@ -10,9 +10,6 @@ typealias Led = UInt
 
 @ExperimentalUnsignedTypes
 fun main() {
-    val blinkDuration = 70
-    val longBlinkDuration = 100
-
     println("starting ...")
 
     if (gpioInitialise() < 0) {
@@ -26,20 +23,9 @@ fun main() {
     srand(leds.sum())
 
     while (true) {
-        when (rand() % 20) {
-            1, 2, 3 -> {
-                val led = ledArray.random()
-                println("blinking on $led")
-                ledArray.blink(led, blinkDuration)
-            }
-            5 -> {
-                println("long blink all")
-                ledArray.shutOffAndOnAgainSlowly(longBlinkDuration * 5)
-            }
-            6 -> {
-                println("blink through all")
-                ledArray.blinkThroughAll(longBlinkDuration)
-            }
+        if (rand() % 20 == 1) {
+            println("switch on and off again")
+            ledArray.switchOffAndOnAgain()
         }
 
         sleep(1)
