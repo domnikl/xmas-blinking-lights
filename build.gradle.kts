@@ -1,6 +1,6 @@
 plugins {
     id("org.jetbrains.kotlin.multiplatform") version "1.7.22"
-    id("org.hidetake.ssh") version "2.10.1"
+    id("org.hidetake.ssh") version "2.11.2"
 }
 repositories {
     mavenCentral()
