@@ -1,5 +1,5 @@
 plugins {
-    id("org.jetbrains.kotlin.multiplatform") version "1.8.10"
+    id("org.jetbrains.kotlin.multiplatform") version "1.9.0"
     id("org.hidetake.ssh") version "2.11.2"
 }
 repositories {
